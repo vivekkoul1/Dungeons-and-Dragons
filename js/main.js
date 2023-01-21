@@ -1,6 +1,6 @@
 //Example fetch using DnD5eAPI - place subclasses in ul
 document.querySelector('button').addEventListener('click', getFetch)
-let spellList = []
+let spellList = JSON.parse(localStorage.getItem('spells')) || []
 function getFetch(){
   const choice = document.querySelector('input').value.replaceAll(' ', '-')
   const url = `https://www.dnd5eapi.co/api/spells/${choice}`
@@ -13,23 +13,20 @@ function getFetch(){
         const li = document.createElement('li')
         li.innerText = data.name
         li.id = data.name
+
+        let spells = {
+            nameOf: data.name,
+            des: data.desc,
+          }
+          spellList.push(spells)
+          console.log(spellList)
+          localStorage.setItem('spells', JSON.stringify(spellList))
         document.querySelector('ul').appendChild(li)
-        if(!localStorage.getItem('spells')){
-            localStorage.setItem('spells', ` ${data.index} `)
-        } else {
-        let spellList = localStorage.getItem('spells')
-            if(!spellList.includes(` ${data.index} `)){
-            spellList += ` ${data.index} `
-            localStorage.setItem('spells', spellList)
-            }
-        }
       })
       .catch(err => {
           console.log(`error ${err}`)
       });
 }
-
-localStorage.getItem('spells').split(" ")
 
 
 //local storage
