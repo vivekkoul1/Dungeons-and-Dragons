@@ -29,14 +29,15 @@ class Interface{
           }
       }
       //This function makes the request to the api to search for the spell name that was entered
-      searchSpells(){
+      async searchSpells(){
         const choice = document.querySelector('input').value.replaceAll(' ', '-')
         const url = `https://www.dnd5eapi.co/api/spells/${choice}`
       
-        fetch(url)
-            .then(res => res.json()) // parse response as JSON
-            .then(data => {
+        
+            const res = await fetch(url) // parse response as JSON
+            const data = await res.json()
               // this conditional checks if user entered the correct spell if not alerts an error or displays spell is correc
+              try{
               if(data['name'] !== undefined){
                 document.querySelector('h2').innerText = data.name
                 document.querySelector('p').innerText = data.desc                  
@@ -52,14 +53,15 @@ class Interface{
                     if(spell.nameOf === currentSpell.nameOf) unique = false
                     else{ unique = true}
                   })
-              } else {
+              }
+              else {
                 alert(`Error you didn't enter a spell`)
                 document.querySelector('input').value = ''
               }
-            })
-            .catch(err => {
+            }
+            catch {err => {
                 console.log(`error ${err}`)
-            });
+            }};
 
       }
       //this function adds the currently searched spell to your list and commits it to local storage
@@ -90,8 +92,8 @@ class Interface{
         currentSpell = false
       }
     }
-      //this function will eventuall print the spell description to the DOM. maybe by toggling a 'hidden' css class?
-      //for now it searches through the array of spells and consoleLogs the decription
+      //this function will print the spell description to the DOM by toggling a 'hidden' css class. It gathers the clicked
+      //elements id then checks for a <p> with a class of that name and toggles hidden. 
       showDes(click){
         console.log(click.target.id)
         document.querySelector(`.${click.target.id}desc`).classList.toggle('hidden')
