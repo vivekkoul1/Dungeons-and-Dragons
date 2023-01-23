@@ -45,7 +45,9 @@ class Interface{
                 let spells = {
                     nameOf: data.name,
                     des: data.desc,
+                    index: data.index,
                   }
+                  console.log(spells)
                   //makes the object available outside this function, would be good to tidy up the global variables though
                   currentSpell = spells
                    //checks to see if spell is already on list
@@ -70,7 +72,7 @@ class Interface{
        if(currentSpell && unique){
         const li = document.createElement('li')
         li.innerText = currentSpell.nameOf
-        li.id = currentSpell.nameOf
+        li.id = currentSpell.index
         // pushing it to the the arraty
         spellList.push(currentSpell)
                   
@@ -86,7 +88,7 @@ class Interface{
         //adds spell description to Dom then hides it
         const p = document.createElement('p')
         p.innerText = currentSpell.des
-        p.classList.add(`hidden`, `${currentSpell.nameOf}desc`)
+        p.classList.add(`hidden`, `${currentSpell.index}desc`)
         li.appendChild(p)
         //clears the current spell so the and statement above prevents adding the same spell repeatedly
         currentSpell = false
