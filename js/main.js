@@ -3,6 +3,7 @@
 let spellList = JSON.parse(localStorage.getItem('spells')) || [];
 //holds the currently searched spell
 let currentSpell
+let unique = true
 function getFetch(){
 
 }
@@ -44,8 +45,13 @@ class Interface{
                     nameOf: data.name,
                     des: data.desc,
                   }
+                  //makes the object available outside this function, would be good to tidy up the global variables though
                   currentSpell = spells
-                  console.log(currentSpell.nameOf)
+                   //checks to see if spell is already on list
+                  spellList.forEach(spell=>{
+                    if(spell.nameOf === currentSpell.nameOf) unique = false
+                    else{ unique = true}
+                  })
               } else {
                 alert(`Error you didn't enter a spell`)
                 document.querySelector('input').value = ''
@@ -58,6 +64,8 @@ class Interface{
       }
       //this function adds the currently searched spell to your list and commits it to local storage
       addSpelltoList(){
+        //only adds if spell is on list
+       if(currentSpell && unique){
         const li = document.createElement('li')
         li.innerText = currentSpell.nameOf
         li.id = currentSpell.nameOf
@@ -73,18 +81,25 @@ class Interface{
          //adds Event listener to new spell
          document.querySelector(`#${li.id}`).addEventListener('click', ui.showDes)
 
+        //adds spell description to Dom then hides it
+        const p = document.createElement('p')
+        p.innerText = currentSpell.des
+        p.classList.add(`hidden`, `${currentSpell.nameOf}desc`)
+        li.appendChild(p)
+        //clears the current spell so the and statement above prevents adding the same spell repeatedly
+        currentSpell = false
       }
+    }
       //this function will eventuall print the spell description to the DOM. maybe by toggling a 'hidden' css class?
       //for now it searches through the array of spells and consoleLogs the decription
       showDes(click){
-        for (let spell of spellList){
-          if(spell.nameOf === click.target.id){
-            console.log(spell.des)
-          }
-        }
+        console.log(click.target.id)
+        document.querySelector(`.${click.target.id}desc`).classList.toggle('hidden')
       }
-}
+      
+      }
 const ui = new Interface('')
+//populates the list from storage
 ui.displaySpells()
 document.querySelector('#searchSpells').addEventListener('click', ui.searchSpells)
 document.querySelector('#addToList').addEventListener('click', ui.addSpelltoList)
