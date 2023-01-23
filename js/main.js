@@ -20,11 +20,12 @@ class Interface{
               // the following code will be similar to what we're doing in the api call with appending elements
               const ul = document.querySelector('ul')
               const li = document.createElement('li')
-              li.id = element['nameOf']
-              li.innerText = element['nameOf']
+              li.id = element.index
+              li.innerText = element.nameOf
               ul.appendChild(li)
               //adds Event listener to Each
               document.querySelector(`#${li.id}`).addEventListener('click', ui.showDes)
+              ui.createDes(element)
             })
           }
       }
@@ -68,7 +69,7 @@ class Interface{
       }
       //this function adds the currently searched spell to your list and commits it to local storage
       addSpelltoList(){
-        //only adds if spell is on list
+        //only adds if spell is on list   maybe the correct way would be to add to local storage then call .displaySpells?
        if(currentSpell && unique){
         const li = document.createElement('li')
         li.innerText = currentSpell.nameOf
@@ -85,14 +86,19 @@ class Interface{
          //adds Event listener to new spell
          document.querySelector(`#${li.id}`).addEventListener('click', ui.showDes)
 
-        //adds spell description to Dom then hides it
-        const p = document.createElement('p')
-        p.innerText = currentSpell.des
-        p.classList.add(`hidden`, `${currentSpell.index}desc`)
-        li.appendChild(p)
+         ui.createDes(currentSpell)
+
         //clears the current spell so the and statement above prevents adding the same spell repeatedly
         currentSpell = false
       }
+    }
+
+    createDes(spell){        
+      //adds spell description to Dom then hides it separate method so it can be called during page load and adding
+      const p = document.createElement('p')
+      p.innerText = spell.des
+      p.classList.add(`hidden`, `${spell.index}desc`)
+      document.querySelector(`#${spell.index}`).appendChild(p)
     }
       //this function will print the spell description to the DOM by toggling a 'hidden' css class. It gathers the clicked
       //elements id then checks for a <p> with a class of that name and toggles hidden. 
