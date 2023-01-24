@@ -32,7 +32,7 @@ class Interface{
   }
   //This function makes the request to the api to search for the spell name that was entered
   async searchSpells() {
-    const choice = document.querySelector('input').value.replaceAll(' ', '-').toLowerCase()
+    const choice = document.querySelector('input').value.trim().replaceAll(' ', '-').toLowerCase()
     const url = `https://www.dnd5eapi.co/api/spells/${choice}`
     //async/await syntax to make more readable
     const res = await fetch(url) // parse response as JSON
