@@ -44,8 +44,8 @@ class Interface{
     // this conditional checks if user entered the correct spell if not alerts an error or displays spell is correct
     try {
       if (data['name'] !== undefined) {
-        document.querySelector('h2').innerText = data.name
-        document.querySelector('p').innerText = data.desc
+        document.querySelector('#searchName').innerText = data.name
+        document.querySelector('#searchDesc').innerText = data.desc
         // creates objects with the spells info to append to spellList array for local storage
         let spells = {
           nameOf: data.name,
@@ -87,6 +87,9 @@ class Interface{
       ui.displaySpells()
       //clears the current spell so the and statement above prevents adding the same spell repeatedly
       ui.currentSpell = false
+      //removes the searched spell from the dom
+      document.querySelector('#searchName').innerText = ''
+      document.querySelector('#searchDesc').innerText = ''
     }
   }
 
