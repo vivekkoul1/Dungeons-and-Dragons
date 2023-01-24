@@ -10,9 +10,39 @@
 /******************************************
 /* LAYOUT
 /*******************************************/
-img{
-  display: block;
-  margin: 0 auto;
+body{
+
+  background-image: url('../img/SpellBook.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 10% 15% 10% 10%;
+}
+
+section{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchBar{
+  justify-content: center;
+  padding-left: 10%;
+}
+.searchResult{
+  flex-direction: column;
+}
+ul{
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+li{
+  align-self: center;
+  text-align: center;
+}
+
+section p{
+  padding: 0 15%;
 }
 
 .hidden{

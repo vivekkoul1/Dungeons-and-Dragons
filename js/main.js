@@ -1,11 +1,7 @@
-//Example fetch using DnD5eAPI - place subclasses in ul
 
 let spellList = JSON.parse(localStorage.getItem('spells')) || [];
 //holds the currently searched spell
 
-function getFetch(){
-
-}
 // creratign a class to display interface 
 class Interface{
   constructor(){
@@ -36,7 +32,7 @@ class Interface{
   }
   //This function makes the request to the api to search for the spell name that was entered
   async searchSpells() {
-    const choice = document.querySelector('input').value.replaceAll(' ', '-')
+    const choice = document.querySelector('input').value.replaceAll(' ', '-').toLowerCase()
     const url = `https://www.dnd5eapi.co/api/spells/${choice}`
     //async/await syntax to make more readable
     const res = await fetch(url) // parse response as JSON
@@ -44,8 +40,8 @@ class Interface{
     // this conditional checks if user entered the correct spell if not alerts an error or displays spell is correct
     try {
       if (data['name'] !== undefined) {
-        document.querySelector('h2').innerText = data.name
-        document.querySelector('p').innerText = data.desc
+        document.querySelector('#searchName').innerText = data.name
+        document.querySelector('#searchDesc').innerText = data.desc
         // creates objects with the spells info to append to spellList array for local storage
         let spells = {
           nameOf: data.name,
@@ -87,6 +83,9 @@ class Interface{
       ui.displaySpells()
       //clears the current spell so the and statement above prevents adding the same spell repeatedly
       ui.currentSpell = false
+      //removes the searched spell from the dom
+      document.querySelector('#searchName').innerText = ''
+      document.querySelector('#searchDesc').innerText = ''
     }
   }
 
@@ -104,13 +103,18 @@ class Interface{
     console.log(click.target.id)
     document.querySelector(`.${click.target.id}desc`).classList.toggle('hidden')
   }
-
+  emptyList(){
+    localStorage.clear()
+    spellList = []
+    ui.displaySpells()
+  }
 }
 const ui = new Interface('')
 //populates the list from storage
 ui.displaySpells()
 document.querySelector('#searchSpells').addEventListener('click', ui.searchSpells)
 document.querySelector('#addToList').addEventListener('click', ui.addSpelltoList)
+document.querySelector('#clearList').addEventListener('click', ui.emptyList)
 
 
 
