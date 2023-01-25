@@ -14,9 +14,10 @@ class Interface{
     const ul = document.querySelector('ul')
     ul.innerHTML = ''
 
-    // this conditionally will run on page load
-    // to see if theres been spells entered into the loal storage 
-    if(spellList.length > 0){
+    //this sorts the spell list every time it is display alphabetically
+    spellList = spellList.sort((a,b) => {
+      return a.nameOf === b.nameOf ? 0 : a.nameOf > b.nameOf ? 1 : -1;
+    })
       spellList.forEach(element => {
         //creates an li for the spell name and adds it to the DOM.
         const li = document.createElement('li')
@@ -29,7 +30,7 @@ class Interface{
         ui.createDes(element)
       })
     }
-  }
+    
   //This function makes the request to the api to search for the spell name that was entered
   async searchSpells() {
     const choice = document.querySelector('input').value.trim().replaceAll(' ', '-').toLowerCase()

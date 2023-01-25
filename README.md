@@ -9,7 +9,7 @@ Nice to have:
 
 make the site look nicer, maybe like an old book?
 
-sort the spell list object
+
 
 
 Done:
@@ -21,3 +21,5 @@ Loop through local storage object and print names into the DOM ul
 On click display the desc property of each spell
 
 Prevent an undefined spell from being added to the local storage
+
+sort the spell list object
