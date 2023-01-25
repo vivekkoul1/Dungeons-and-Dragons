@@ -1,7 +1,8 @@
-
 let spellList = JSON.parse(localStorage.getItem('spells')) || [];
 //holds the currently searched spell
-
+if(spellList[0] === null){
+  spellList = []
+}
 // creratign a class to display interface 
 class Interface{
   constructor(){
@@ -48,14 +49,15 @@ class Interface{
           des: data.desc,
           index: data.index,
         }
-        console.log(spells)
+        //console.log(spells)
         //makes the object available outside this function, would be good to tidy up the global variables though
-        ui.currentSpell = spells
+         ui.currentSpell = spells
+         console.log(ui.currentSpell)
         //checks to see if spell is already on list
-        spellList.forEach(spell => {
-          if (spell.nameOf === ui.currentSpell.nameOf) ui.unique = false
-          else { ui.unique = true }
-        })
+        // spellList.forEach(spell => {
+        //   if (spell.nameOf === ui.currentSpell.nameOf) ui.unique = false
+        //   else { ui.unique = true }
+        // })
       }
       else {
         alert(`Error you didn't enter a spell`)
@@ -72,20 +74,63 @@ class Interface{
   //this function adds the currently searched spell to your list and commits it to local storage
   addSpelltoList() {
     //only adds if spell is not on list already
-    if (ui.currentSpell && ui.unique) {
-      // pushing it to the the arraty
-      spellList.push(ui.currentSpell)
 
+    // gets value of input in html
+    let value = document.querySelector('input').value.replaceAll(' ', '-').toLowerCase()
+
+    //varible to be used for conditonal that check if imput is in spellList
+    let isNotInArray = false
+
+    // no clue whats the use of this variable
+    let idkWhatImDoing = 0
+
+    // checks to if theres anything in the spell list and if user entered a value 
+    // set varibles to a boolean to true that run a conditional
+    if((spellList.length === 0 && value === '') || value === ''){
+      ui.currentSpell = ''
+      idkWhatImDoing = true
+      isNotInArray = true
+    } else if(spellList.length >= 1){
+      // loops through each obect in the array and its name propperty
+      // to see if it has already been addded to the spell list
+      spellList.forEach(x => {
+        if(value === x.nameOf.toLowerCase() && value !== ''){
+
+          // i think the naming of the vaible is a little confusing but i didnt want to change it and break more things
+          isNotInArray = true
+        }
+      })
+    }
+    // if the spell the user enter isnt in the spell list following code will run 
+    if (!isNotInArray) {
+    //  console.log('well this is werid')
+      // pushing it to the the arraty
+
+      // added this conditional for when user click add to list button before search spells button
+      // it would do nothing so i added this alert
+      if(ui.currentSpell === '') {
+        alert(`Did you search the spell?`)
+      } else if (ui.currentSpell !== ''){
+      //  console.log(ui.currentSpell)
+        spellList.push(ui.currentSpell)
+      }
+
+      
       // setting up the local storage 
       localStorage.setItem('spells', JSON.stringify(spellList))
 
       //updates the list by re-rendering in the DOM
       ui.displaySpells()
       //clears the current spell so the and statement above prevents adding the same spell repeatedly
-      ui.currentSpell = false
+      //ui.currentSpell = false
       //removes the searched spell from the dom
       document.querySelector('#searchName').innerText = ''
       document.querySelector('#searchDesc').innerText = ''
+      
+    } else if(idkWhatImDoing){
+      alert(`spell list is empty`)
+    } else if(isNotInArray){
+      alert(`you've already added this spell`)
     }
   }
 
