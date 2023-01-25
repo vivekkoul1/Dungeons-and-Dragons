@@ -51,12 +51,10 @@ class Interface{
         console.log(spells)
         //makes the object available outside this function, would be good to tidy up the global variables though
         ui.currentSpell = spells
-        //checks to see if spell is already on list
-        spellList.forEach(spell => {
-          if (spell.nameOf === ui.currentSpell.nameOf) ui.unique = false
-          else { ui.unique = true }
-        })
-      }
+        //checks to see if spell is already on list by creating an array of just the names and searching it
+        let nameList = spellList.map((element)=>element.nameOf)
+        ui.unique = !nameList.includes(ui.currentSpell.nameOf)
+      }          // console.log(ui.currentSpell.nameOf)
       else {
         alert(`Error you didn't enter a spell`)
         document.querySelector('input').value = ''
