@@ -16,7 +16,12 @@ class Interface{
     ul.innerHTML = ''
 
     // this conditionally will run on page load
-    // to see if theres been spells entered into the loal storage 
+    // to see if theres been spells entered into the loal storage
+    
+    // sorts the array of object in alphabetical order
+    spellList = spellList.sort((a,b) => {
+      return a.nameOf === b.nameOf ? 0 : a.nameOf > b.nameOf ? 1 : -1
+    })
     if(spellList.length > 0){
       spellList.forEach(element => {
         //creates an li for the spell name and adds it to the DOM.
@@ -156,10 +161,13 @@ class Interface{
 }
 const ui = new Interface('')
 //populates the list from storage
+console.log(spellList[0].nameOf)
 ui.displaySpells()
 document.querySelector('#searchSpells').addEventListener('click', ui.searchSpells)
 document.querySelector('#addToList').addEventListener('click', ui.addSpelltoList)
 document.querySelector('#clearList').addEventListener('click', ui.emptyList)
 
 
-
+// spellList = spellList.sort((a,b) => {
+//   return a.nameOf === b.nameOf ? 0 : a.nameOf > b.nameOf ? 1 : -1
+// })
